@@ -14,6 +14,9 @@ from PIL import Image,ImageDraw,ImageFont
 import traceback
 import argparse
 
+logging.basicConfig(level=logging.DEBUG)
+
+
 def output(img_path):
     try:
         logging.info("epd3in7 Demo")
@@ -23,7 +26,11 @@ def output(img_path):
         epd.Clear(0xFF, 0)
         
         logging.info("read 4 Gray bmp file")
-        Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), img_path))
+        img_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), img_path)
+        logging.info("start output file" + img_file)
+        Himage = Image.open(img_file)
+        newSize = (epd.height, epd.width)
+        Himage.resize(newSize)
         epd.display_4Gray(epd.getbuffer_4Gray(Himage))
         
         logging.info("Goto Sleep...")
@@ -47,5 +54,5 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--img_file', required=True)      # option that takes a value
     args = parser.parse_args()
     result = []
-    output(args["img_file"])
+    output(args.img_file)
     
