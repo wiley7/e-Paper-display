@@ -16,6 +16,8 @@ import argparse
 from pathlib import Path
 logging.basicConfig(level=logging.DEBUG)
 
+threshold=[63, 126, 189]
+
 def output(img_path):
     try:
         logging.info("epd3in7 Demo")
@@ -28,8 +30,8 @@ def output(img_path):
 
         img_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), img_path)
         filename = os.path.basename(img_file)
-        target_file = os.path.join(os.path.dirname(img_file), "target.".filename)
-        convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True, threshold=[63, 126, 189])
+        target_file = os.path.join(os.path.dirname(img_file), "target."+filename)
+        convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True)
         logging.info("start output file" + target_file)
         Himage = Image.open(target_file)
         epd.display_4Gray(epd.getbuffer_4Gray(Himage))
@@ -45,7 +47,7 @@ def output(img_path):
         epd3in7.epdconfig.module_exit()
         exit()
 
-def thr(px, threshold):
+def thr(px):
     if px < threshold[0]:
         return 0
     elif threshold[0] <= px < threshold[1]:
@@ -55,7 +57,7 @@ def thr(px, threshold):
     else:
         return 255
 
-def convert(mode, source, target, width, height, dither, threshold):
+def convert(mode, source, target, width, height, dither):
     data_bw = None
     data_red = None
 
@@ -160,5 +162,5 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--img_file', required=True)      # option that takes a value
     args = parser.parse_args()
     result = []
-    output(args["img_file"])
+    output(args.img_file)
     
