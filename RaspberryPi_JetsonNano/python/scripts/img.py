@@ -31,10 +31,8 @@ def output(img_path):
         img_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), img_path)
         filename = os.path.basename(img_file)
         target_file = os.path.join(os.path.dirname(img_file), "target."+filename)
-        convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True)
-        logging.info("start output file" + target_file)
-        Himage = Image.open(target_file)
-        epd.display_4Gray(epd.getbuffer_4Gray(Himage))
+        targetImg=convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True)
+        epd.display_4Gray(epd.getbuffer_4Gray(targetImg))
         
         logging.info("Goto Sleep...")
         epd.sleep()
@@ -100,57 +98,41 @@ def convert(mode, source, target, width, height, dither):
         if dither:
             # Using "1" mode with dithering gives better results.
             img = img.convert("1").point(lambda p: p > threshold[0] and 255)
-            # In this mode data match FrameBuffer HLSB format, no need for further processing.
-            data_bw = bytearray(img.tobytes())
+            # # In this mode data match FrameBuffer HLSB format, no need for further processing.
+            # data_bw = bytearray(img.tobytes())
         else:
             # Using "L" mode makes thresholding easier.
             img = img.convert("L").point(lambda p: p > threshold[0] and 255)
 
             # Convert pixel data to HLSB format.
-            img_data = img.tobytes()
-            data_bw = bytearray(w * h // 8)
-            for byte in range(w * h // 8):
-                pixels = img_data[byte * 8:(byte + 1) * 8]
-                tmp = 0
-                for i, v in enumerate(pixels):
-                    tmp |= (v & 0x1) << (7 - i)
-                data_bw[byte] = tmp
+            # img_data = img.tobytes()
+            # data_bw = bytearray(w * h // 8)
+            # for byte in range(w * h // 8):
+            #     pixels = img_data[byte * 8:(byte + 1) * 8]
+            #     tmp = 0
+            #     for i, v in enumerate(pixels):
+            #         tmp |= (v & 0x1) << (7 - i)
+            #     data_bw[byte] = tmp
 
     # 4 level grayscale conversion.
     else:
         # Converting to "P" mode first allows dithering.
         img = img.convert("P", dither=Image.FLOYDSTEINBERG if dither else Image.NONE).convert("L").point(thr)
 
-        # Convert pixel data to bytearrays for BW and RED RAMs in HLSB format.
-        data_bw = bytearray(w * h // 8)
-        data_red = bytearray(w * h // 8)
-        img_data = img.tobytes()
-        for byte in range(w * h // 8):
-            pixels = img_data[byte * 8:(byte + 1) * 8]
-            tmp_bw = 0
-            tmp_red = 0
-            for i, v in enumerate(pixels):
-                tmp_bw |= (v & 0x1) << (7 - i)
-                tmp_red |= ((v >> 1) & 0x1) << (7 - i)
-            data_bw[byte] = tmp_bw
-            data_red[byte] = tmp_red
-
-    # Save file.
-    if target is None:
-        out_file = Path(source).stem + ".py"
-    else:
-        if target.split(".")[-1].lower() != ".py":
-            out_file = target + ".py"
-        else:
-            out_file = target
-    print(f"Saving data to: {out_file}")
-    with open(out_file, "w") as f:
-        f.write(f"width = {w}\n")
-        f.write(f"height = {h}\n")
-        f.write(f"img_bw = {data_bw}\n")
-        # Save data for RED RAM only if it exists.
-        if data_red:
-            f.write(f"img_red = {data_red}\n")
+        # # Convert pixel data to bytearrays for BW and RED RAMs in HLSB format.
+        # data_bw = bytearray(w * h // 8)
+        # data_red = bytearray(w * h // 8)
+        # img_data = img.tobytes()
+        # for byte in range(w * h // 8):
+        #     pixels = img_data[byte * 8:(byte + 1) * 8]
+        #     tmp_bw = 0
+        #     tmp_red = 0
+        #     for i, v in enumerate(pixels):
+        #         tmp_bw |= (v & 0x1) << (7 - i)
+        #         tmp_red |= ((v >> 1) & 0x1) << (7 - i)
+        #     data_bw[byte] = tmp_bw
+        #     data_red[byte] = tmp_red
+    return img
 
 if __name__ == '__main__':
     print('######################################')
