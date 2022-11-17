@@ -32,11 +32,12 @@ def output(img_path):
         filename = os.path.basename(img_file)
         target_file = os.path.join(os.path.dirname(img_file), "target."+filename)
         sourceImg = Image.open(img_file)
-        (w,h) = sourceImg.size()
+        w, h = sourceImg.size
+        logging.info("original image size is %dx%d", w, h)
         if w > h:        
-            targetImg=convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True)
-        else:
             targetImg=convert(mode="L2", source=img_file, target=target_file, width=epd.height, height=epd.width,dither=True)
+        else:
+            targetImg=convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True)
         epd.display_4Gray(epd.getbuffer_4Gray(targetImg))
         
         logging.info("Goto Sleep...")
