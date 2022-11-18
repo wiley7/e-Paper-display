@@ -46,6 +46,7 @@ def output(txt_path):
             line_start_y = h_padding + index * (font_size + line_indent)
             draw.text(xy=(line_start_x, line_start_y), text=line,font=font,align='left',fill=epd.GRAY4)
             index = index+1
+        Himage.rotate(180) # 翻转一下，树莓派电源位置比较尴尬，干脆倒过来看
         epd.display_4Gray(epd.getbuffer_4Gray(Himage))
         
         logging.info("Goto Sleep...")
