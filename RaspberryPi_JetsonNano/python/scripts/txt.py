@@ -44,7 +44,7 @@ def output(txt_path):
             # line = line.strip()
             line_start_x = w_padding
             line_start_y = h_padding + index * (font_size + line_indent)
-            draw.text(xy=(line_start_x, line_start_y), text=line,font=font,align='left',fill=epd.GRAY3)
+            draw.text(xy=(line_start_x, line_start_y), text=line,font=font,align='left',fill=epd.GRAY4)
             index = index+1
         epd.display_4Gray(epd.getbuffer_4Gray(Himage))
         
