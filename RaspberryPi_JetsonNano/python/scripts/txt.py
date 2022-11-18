@@ -16,7 +16,7 @@ import argparse
 from pathlib import Path
 import math
 import string
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 threshold=[63, 126, 189]
 
@@ -37,7 +37,7 @@ def stringLength(str):
 
 def output(txt_path):
     try:
-        logging.info("epd3in7 Demo")
+        logging.info("epd3in7")
         epd = epd3in7.EPD()
         logging.info("init and Clear")
         epd.init(0)
