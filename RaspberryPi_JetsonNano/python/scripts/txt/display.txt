@@ -1,12 +1,6 @@
 • 欧美第一个版本的时间，用来做 LQA 和兼容性测试
-    today
 • 要看下绩效考核表的情况
-    today
 • 添加点券credit讨论
-    today at 11:00 - 12:00
 • 策划周会
-    today at 14:00 - 14:15
 • gouki v2.1.4&w0.0.3迭代需求冻结
-    today at 14:15 - 14:30
 • 找APlus要下web支付的数据
-    today at 16:00 - 17:00
