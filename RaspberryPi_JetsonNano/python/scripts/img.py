@@ -38,8 +38,8 @@ def output(img_path):
             targetImg=convert(mode="L2", source=img_file, target=target_file, width=epd.height, height=epd.width,dither=True)
         else:
             targetImg=convert(mode="L2", source=img_file, target=target_file, width=epd.width, height=epd.height,dither=True)
-        targetImg.rotate(180) # 翻转一下，树莓派电源位置比较尴尬，干脆倒过来看
-        epd.display_4Gray(epd.getbuffer_4Gray(targetImg))
+        # 翻转一下，树莓派电源位置比较尴尬，干脆倒过来看
+        epd.display_4Gray(epd.getbuffer_4Gray(targetImg.rotate(180)))
         
         logging.info("Goto Sleep...")
         epd.sleep()
