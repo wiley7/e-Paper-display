@@ -38,11 +38,11 @@ def output(txt_path):
 
         line_height = math.floor((epd.width - (h_padding *2))/line_cnt)
         if line_height > 10:
-            font_size = math.floor(line_height / 1.2)
+            font_size = math.floor(line_height / 1.1)
             line_indent = line_height - font_size
         else:
             font_size = 10
-            line_indent = 2
+            line_indent = 1
         logging.info("line height %d, font size %d, line indet %d", line_height, font_size, line_indent)
         font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
 
