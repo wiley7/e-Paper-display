@@ -49,13 +49,13 @@ def output(txt_path):
         txtFile = open(txt_file, "r")
         lines = txtFile.readlines()
         line_cnt = len(lines)
-        w_padding = 10
-        h_padding = 10
+        w_padding = 5
+        h_padding = 5
 
         # calc font height
         line_height = math.floor((epd.width - (h_padding *2))/line_cnt)
         if line_height > 10:
-            font_size = math.floor(line_height / 1.1)
+            font_size = math.floor(line_height / 1.05)
             line_indent = line_height - font_size
 
         # calc font width
@@ -72,8 +72,8 @@ def output(txt_path):
         if font_size > font_width:
             font_size = font_width
 
-        if font_size < 10:
-            font_size = 10
+        if font_size < 16:
+            font_size = 16
             line_indent = 1
         logging.info("line height %d, font size %d, line indet %d", line_height, font_size, line_indent)
         font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
