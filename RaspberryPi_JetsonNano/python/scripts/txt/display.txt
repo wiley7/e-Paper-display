@@ -1,7 +1,8 @@
-今日 TODO
-
-- Gouki 开发跟进
-- Gouki 同步调整
-- Pandora 内测体验
-- 体验《我叫MT：归来》
-
+• 添加点券credit讨论
+    today at 11:00 - 12:00
+• 策划周会
+    today at 14:00 - 14:15
+• gouki v2.1.4&w0.0.3迭代需求冻结
+    today at 14:15 - 14:30
+• 核酸检测
+    today at 15:00 - 16:00
