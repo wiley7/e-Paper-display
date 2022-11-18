@@ -33,7 +33,7 @@ def stringLength(str):
         else:
             count_fh += 1
     logging.debug("%s : yw:%d, num:%d, zw:%d, oth:%d", str, count_yw, count_num, count_zw, count_fh)
-    return math.ceil((count_yw + count_num + count_fh + count_yw *2)/2)
+    return math.ceil((count_yw + count_num + count_fh + count_zw *2)/2)
 
 def output(txt_path):
     try:
