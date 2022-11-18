@@ -33,13 +33,19 @@ def output(txt_path):
         txtFile = open(txt_file, "r")
         lines = txtFile.readlines()
         line_cnt = len(lines)
-        font_size = math.floor(epd.width/line_cnt/12)*12
+        w_padding = 10
+        h_padding = 10
+
+        line_height = math.floor((epd.width - (h_padding *2))/line_cnt)
+        if line_height > 12:
+            font_size = math.floor(line_height / 1.2 / 12) * 12
+            line_indent = line_height - font_size
+        else:
+            font_size = 12
+            line_indent = 2
         font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
 
         index = 0
-        w_padding = 10
-        h_padding = 10
-        line_indent = 5
         for line in lines:
             # line = line.strip()
             line_start_x = w_padding
