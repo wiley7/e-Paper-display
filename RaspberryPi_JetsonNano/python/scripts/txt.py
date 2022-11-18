@@ -32,11 +32,8 @@ def stringLength(str):
             count_zw += 1
         else:
             count_fh += 1
-    print('英文字符：', count_yw)
-    print('数字：', count_num)
-    print('中文：', count_zw)
-    print('特殊字符：', count_fh)
-    return count_yw + count_num + count_fh + count_yw *2
+    logging.debug("%s : yw:%d, num:%d, zw:%d, oth:%d", str, count_yw, count_num, count_zw, count_fh)
+    return math.ceil((count_yw + count_num + count_fh + count_yw *2)/2)
 
 def output(txt_path):
     try:
@@ -60,9 +57,6 @@ def output(txt_path):
         if line_height > 10:
             font_size = math.floor(line_height / 1.1)
             line_indent = line_height - font_size
-        else:
-            font_size = 10
-            line_indent = 1
 
         # calc font width
         max_line_size = 0
@@ -71,11 +65,14 @@ def output(txt_path):
             if max_line_size < line_l:
                 max_line_size = line_l
         font_width = math.floor((epd.height - (w_padding *2))/max_line_size)
-        if font_width < 10:
-            font_width = 10
 
+        logging.debug("font height %d, width %d", font_size, font_width)
         if font_size > font_width:
             font_size = font_width
+
+        if font_size < 10:
+            font_size = 10
+            line_indent = 1
         logging.info("line height %d, font size %d, line indet %d", line_height, font_size, line_indent)
         font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
 
