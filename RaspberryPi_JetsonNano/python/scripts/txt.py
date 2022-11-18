@@ -15,6 +15,7 @@ import traceback
 import argparse
 from pathlib import Path
 import math
+import string
 logging.basicConfig(level=logging.DEBUG)
 
 threshold=[63, 126, 189]
