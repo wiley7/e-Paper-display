@@ -33,11 +33,19 @@ def output(txt_path):
         txtFile = open(txt_file, "r")
         lines = txtFile.readlines()
         line_cnt = lines.count()
-        font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), math.floor(epd.width/line_cnt/12)*12)
+        font_size = math.floor(epd.width/line_cnt/12)*12
+        font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
 
+        index = 0
+        w_padding = 10
+        h_padding = 10
+        line_indent = 5
         for line in lines:
             # line = line.strip()
-            draw.text(text=line,font=font,align='left',fill=epd.GRAY3)
+            line_start_x = w_padding
+            line_start_y = h_padding + index * (font_size + line_indent)
+            draw.text(xy=(line_start_x, line_start_y), text=line,font=font,align='left',fill=epd.GRAY3)
+            index = index+1
         epd.display_4Gray(epd.getbuffer_4Gray(Himage))
         
         logging.info("Goto Sleep...")
