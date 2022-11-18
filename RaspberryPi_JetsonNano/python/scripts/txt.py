@@ -19,6 +19,24 @@ logging.basicConfig(level=logging.DEBUG)
 
 threshold=[63, 126, 189]
 
+def stringLength(str):
+    # count a hanzi as two letters
+    count_yw = count_num = count_zw = count_fh = 0
+    for s in str:
+        if s in string.ascii_letters:
+            count_yw += 1
+        elif s.isdigit():
+            count_num += 1
+        elif s.isalpha():
+            count_zw += 1
+        else:
+            count_fh += 1
+    print('英文字符：', count_yw)
+    print('数字：', count_num)
+    print('中文：', count_zw)
+    print('特殊字符：', count_fh)
+    return count_yw + count_num + count_fh + count_yw *2
+
 def output(txt_path):
     try:
         logging.info("epd3in7 Demo")
@@ -36,6 +54,7 @@ def output(txt_path):
         w_padding = 10
         h_padding = 10
 
+        # calc font height
         line_height = math.floor((epd.width - (h_padding *2))/line_cnt)
         if line_height > 10:
             font_size = math.floor(line_height / 1.1)
@@ -43,6 +62,19 @@ def output(txt_path):
         else:
             font_size = 10
             line_indent = 1
+
+        # calc font width
+        max_line_size = 0
+        for line in lines:
+            line_l = stringLength(line)
+            if max_line_size < line_l:
+                max_line_size = line_l
+        font_width = math.floor((epd.height - (w_padding *2))/max_line_size)
+        if font_width < 10:
+            font_width = 10
+
+        if font_size > font_width:
+            font_size = font_width
         logging.info("line height %d, font size %d, line indet %d", line_height, font_size, line_indent)
         font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
 
