@@ -64,7 +64,9 @@ def output(txt_path):
             line_l = stringLength(line)
             if max_line_size < line_l:
                 max_line_size = line_l
+        
         font_width = math.floor((epd.height - (w_padding *2))/max_line_size)
+        logging.debug("font_width:%d = math.floor((%d - (%d *2))/%d)", font_width, epd.height, w_padding, max_line_size)
 
         logging.debug("font height %d, width %d", font_size, font_width)
         if font_size > font_width:
