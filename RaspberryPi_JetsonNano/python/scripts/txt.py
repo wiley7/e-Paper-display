@@ -32,7 +32,7 @@ def output(txt_path):
         txt_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), txt_path)
         txtFile = open(txt_file, "r")
         lines = txtFile.readlines()
-        line_cnt = lines.count()
+        line_cnt = len(lines)
         font_size = math.floor(epd.width/line_cnt/12)*12
         font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
 
